@@ -1,0 +1,32 @@
+.tools
+  - # link_to_remote 'Delete', {:url => { :action => 'destroy', :id => @exc }} , :class => "util"
+  %span.pipe |
+    - # link_to_function "Close", "$('showpage').style.display='none';", :class => "util"
+
+.date= @exc.created_at.strftime("%A, %b %d, %Y at %l:%M %p")
+
+%h1= '%s in %s/%s' % [@exc.exception_class, @exc.controller_name.to_s.camel_case, @exc.action_name]
+
+%h2 Request URL
+= print_hash( @exc.url )
+
+%h2 Backtrace
+%p.intro= @exc.message
+
+%pre#backtrace~ @exc.backtrace.join("\n")
+
+%h2 Environment
+
+%p
+  %strong Cookies
+= print_hash( @exc.cookies )
+
+%p
+  %strong Session
+= print_hash( @exc.session )
+
+%p
+  %strong Params
+= print_hash( @exc.params )
+
+= print_hash( @exc.environment )
