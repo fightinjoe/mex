@@ -3,7 +3,8 @@ require 'ruby-debug'
 # Move this to application.rb if you want it to be reloadable in dev mode.
 Merb::Router.prepare do |r|
   r.match('/').to(:controller => 'axes', :action =>'index')
-  r.default_routes
+  r.resources :axes
+#  r.default_routes
 end
 
 Merb::Config.use { |c|

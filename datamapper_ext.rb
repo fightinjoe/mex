@@ -31,8 +31,11 @@ module DataMapperExt
           end
 
           def #{ setter }( hash )
-            #{ cache_variable } = hash
-            #{ instance_variable } = hash.to_yaml
+            if hash.is_a?( Hash )
+              #{ cache_variable } = hash
+              hash = hash.to_yaml
+            end
+            #{ instance_variable } = hash
           end
         EOS
       end

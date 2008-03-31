@@ -54,7 +54,8 @@ class Axes < Merb::Controller
   end
 
   def create
-    
+    Axe.create( params[:axe] )
+    'Thank you'
   end
 
   def destroy
@@ -168,7 +169,7 @@ class Axe < DataMapper::Base
   property :url,             :text
   property :created_at,      :datetime
 
-  yaml_attribute :cookies, :backtrace, :params, :session, :environment, :request
+  yaml_attribute :cookies, :backtrace, :params, :session, :environment
 
   ### Class Methods ###
 
