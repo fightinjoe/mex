@@ -157,6 +157,7 @@ end
 class Axe < DataMapper::Base
   include DataMapperExt
 
+  property :project_name,    :string
   property :exception_class, :string
   property :controller_name, :string
   property :action_name,     :string
