@@ -1,0 +1,45 @@
+<div class="tools">
+  <%# link_to_remote 'Delete', {:url => { :action => 'destroy', :id => @exc }} , :class => "util" %>
+  <span class="pipe">
+    |
+    <%# link_to_function "Close", "$('showpage').style.display='none';", :class => "util" %>
+  </span>
+</div>
+
+<div class="date">
+  <%= @exc.created_at.strftime("%A, %b %d, %Y at %l:%M %p") %>
+</div>
+
+<h1>
+  <%= '%s in %s/%s' % [@exc.exception_class, @exc.controller_name.to_s.camel_case, @exc.action_name] %>
+</h1>
+
+<h2>
+  Request URL
+</h2>
+
+<%= print_hash( @exc.url ) %>
+
+<h2>Backtrace</h2>
+<p class="intro"><%= @exc.message %></p>
+
+<pre id="backtrace"><%= @exc.backtrace.join("\n") %></pre>
+
+<h2>Environment</h2>
+
+<p>
+  <strong>Cookies</strong>
+  <%= print_hash( @exc.cookies ) %>
+</p>
+
+<p>
+  <strong>Session</strong>
+  <%= print_hash( @exc.session ) %>
+</p>
+
+<p>
+  <strong>Params</strong>
+  <%= print_hash( @exc.params ) %>
+</p>
+
+<%= print_hash( @exc.environment ) %>
