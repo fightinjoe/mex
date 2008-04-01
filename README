@@ -1,0 +1,10 @@
+Axe
+==============
+
+Axe is a flat Merb app that provides a web service for logging exceptions
+raised by other web apps.
+
+Start from the command line with:
+
+  merb
+  
