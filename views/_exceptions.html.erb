@@ -29,7 +29,7 @@
           <%= "#{exc.exception_class} in #{exc.controller_name}/#{exc.action_name}" %>
           <%
             content = '%s in %s' % [ exc.exception_class, exc.controller_name ]
-            link    = "jQuery.getScript('#{ url(:action => 'show', :id => exc.id) }')"
+            link    = "jQuery.getScript('#{ url(:axe, exc) }')"
           %>
           <%= remote_link( content, link ) %>
 

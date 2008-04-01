@@ -1,6 +1,6 @@
 require 'ruby-debug'
 
-# Move this to application.rb if you want it to be reloadable in dev mode.
+Language::English::Inflect.singular_word('axe','axes')
 Merb::Router.prepare do |r|
   r.match('/').to(:controller => 'axes', :action =>'index')
   r.resources :axes
