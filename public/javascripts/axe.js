@@ -48,3 +48,7 @@ jQuery.extend(Array.prototype, {
 //    if($('activity') && Ajax.activeRequestCount == 0) $('activity').visualEffect('fade', {duration:0.25});
 //  }
 //});
+
+$(document).ready(function(){
+  $('form#query-form').ajaxForm({'dataType':'script'});
+});
