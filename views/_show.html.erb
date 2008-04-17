@@ -1,9 +1,7 @@
 <div class="tools">
   <%# link_to_remote 'Delete', {:url => { :action => 'destroy', :id => @exc }} , :class => "util" %>
-  <span class="pipe">
-    |
-    <%# link_to_function "Close", "$('showpage').style.display='none';", :class => "util" %>
-  </span>
+  <span class="pipe">|</span>
+  <a onclick="$('#showpage').slideToggle();this.blur();return false" href="#">Close</a>
 </div>
 
 <div class="date">
@@ -14,32 +12,36 @@
   <%= '%s in %s/%s' % [@exc.exception_class, @exc.controller_name.to_s.camel_case, @exc.action_name] %>
 </h1>
 
-<h2>
-  Request URL
-</h2>
+<h2><a href="#" onclick="return ExceptionLogger.toggleSibling(this);">Request URL</a></h2>
+<div style="display:none">
+  <%= print_hash( @exc.url ) %>
+</div>
 
-<%= print_hash( @exc.url ) %>
+<h2><a href="#" onclick="return ExceptionLogger.toggleSibling(this);">Environment</a></h2>
+<div style="display:none">
+  <p>
+    <strong>Cookies</strong>
+    <%= print_hash( @exc.cookies ) %>
+  </p>
 
-<h2>Backtrace</h2>
-<p class="intro"><%= @exc.message %></p>
+  <p>
+    <strong>Session</strong>
+    <%= print_hash( @exc.session ) %>
+  </p>
 
-<pre id="backtrace"><%= @exc.backtrace.join("\n") %></pre>
+  <p>
+    <strong>Params</strong>
+    <%= print_hash( @exc.params ) %>
+  </p>
 
-<h2>Environment</h2>
+  <p>
+    <strong>Request</strong>
+    <%= print_hash( @exc.environment ) %>
+  </p>
+</div>
 
-<p>
-  <strong>Cookies</strong>
-  <%= print_hash( @exc.cookies ) %>
-</p>
-
-<p>
-  <strong>Session</strong>
-  <%= print_hash( @exc.session ) %>
-</p>
-
-<p>
-  <strong>Params</strong>
-  <%= print_hash( @exc.params ) %>
-</p>
-
-<%= print_hash( @exc.environment ) %>
+<h2><a href="#" onclick="return ExceptionLogger.toggleSibling(this);">Backtrace</a></h2>
+<div>
+  <p class="intro"><%= @exc.message %></p>
+  <pre id="backtrace"><%= @exc.backtrace.join("\n") %></pre>
+</div>
