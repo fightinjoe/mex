@@ -15,6 +15,7 @@ class Axes < Merb::Controller
   def index
     @exception_names    = Axe.find_exception_class_names
     @controller_actions = Axe.find_exception_controllers_and_actions
+    @project_names      = Axe.find_project_names
     query
   end
 
@@ -195,6 +196,10 @@ class Axe < DataMapper::Base
   def self.find_exception_controllers_and_actions
     sql = 'SELECT DISTINCT controller_name, action_name FROM axes;'
     find_by_sql(sql).collect{ |c| "#{c.controller_name}/#{c.action_name}"}
+  end
+
+  def self.find_project_names
+    find_by_sql( 'SELECT DISTINCT project_name FROM axes;' )
   end
 
   # Pagination support

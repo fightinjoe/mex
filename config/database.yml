@@ -1,7 +1,7 @@
 ---
 :development: &defaults
   :adapter: sqlite3
-  :database: axe.sqlite3
+  :database: axe.sqlite3.live
 
 :production:
   <<: *defaults

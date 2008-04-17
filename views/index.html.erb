@@ -29,6 +29,16 @@
   </li>
 </ul>
 
+<h4>Project</h4>
+
+<ul id="project_names" class="filters">
+<% @project_names.each do |name| -%>
+  <li>
+    <a href="javascript:ExceptionLogger.setFilter('project_names','<%= name %>')"><%= name %></a>
+  </li>
+<% end -%>
+</ul>
+
 <h4>Exception</h4>
 
 <ul id="exception_names" class="filters">
