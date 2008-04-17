@@ -7,6 +7,7 @@
   <!-- <script type="text/javascript" charset="utf-8" src="/javascripts/jquery.js"></script> -->
   <script type="text/javascript">
 <%= IO.read(File.join(Merb.root, 'public/javascripts/jquery.js')) %>
+<%= IO.read(File.join(Merb.root, 'public/javascripts/form.js')) %>
   </script>
   <script type="text/javascript">
 <%= IO.read(File.join(Merb.root, 'public/javascripts/axe.js')) %>
@@ -69,17 +70,18 @@
 </ul>
 
 <div id="search">
-  <%# form_remote_tag :url => { :action => 'query' }, :html => { :id => 'query-form' } %>
+  <form id="query-form" action="/query.js">
     <div>
+      <input type="text" name="query" value="" size="17" />
+      <input type="submit" value="Find" />
 
-      <%# text_field_tag :query, "", :size => 17 %>
-      <%# submit_tag :Find %>
-
-      <%# hidden_field_tag :exception_names_filter %>
-      <%# hidden_field_tag :date_ranges_filter %>
-      <%# hidden_field_tag :controller_actions_filter %>
-      <%# hidden_field_tag :page, params[:page] %>
+      <input type="hidden" name="exception_names_filter" />
+      <input type="hidden" name="project_names_filter" />
+      <input type="hidden" name="date_ranges_filter" />
+      <input type="hidden" name="controller_actions_filter" />
+      <input type="hidden" name="page" value="<%= params[:page] %>" />
     </div>
+  </form>
 </div>
 
 <% partial( :feed ) %>

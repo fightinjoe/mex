@@ -1,25 +1,23 @@
 ExceptionLogger = {
   filters: ['exception_names', 'controller_actions', 'date_ranges'],
+
   setPage: function(num) {
     $('page').value = num;
     $('query-form').onsubmit();
   },
   
   setFilter: function(context, name) {
-    var filterName = context + '_filter'
-    $(filterName).value = ($F(filterName) == name) ? '' : name;
-    this.deselect(context, filterName);
-    $('page').value = '1';
-    $('query-form').onsubmit();
+    var filterName = 'input[name=' + context + '_filter]';
+    $(filterName).val( ($(filterName).val() == name) ? '' : name );
+
+    $('#' + context + ' a').each(function(){
+      this.className = (this.className == '' && this.innerHTML == name) ? 'selected' : ''
+    });
+
+    $('input[name=page]').val(1);
+    $('form#query-form').ajaxSubmit({'dataType':'script'});
   },
 
-  deselect: function(context, filterName) {
-    $$('#' + context + ' a').each(function(a) {
-      var value = $(filterName) ? $F(filterName) : null;
-      a.className = (value && (a.getAttribute('title') == value || a.innerHTML == value)) ? 'selected' : '';
-    });
-  },
-  
   deleteAll: function() {
     return $.makeArray($('tr.exception').map(function(){return this.getAttribute('id').replace(/^\w+-/, '');})).join(",")
 //    return Form.serialize('query-form') + '&' + $$('tr.exception').collect(function(tr) { return tr.getAttribute('id').gsub(/^\w+-/, ''); }).toQueryString('ids');

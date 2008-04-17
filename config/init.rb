@@ -3,6 +3,7 @@ require 'ruby-debug'
 Language::English::Inflect.singular_word('axe','axes')
 Merb::Router.prepare do |r|
   r.match('/').to(:controller => 'axes', :action =>'index')
+  r.match('/query.js').to(:controller => 'axes', :action => 'query', :format => 'js').name(:query_js)
   r.resources :axes
 #  r.default_routes
 end
