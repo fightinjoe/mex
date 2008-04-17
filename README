@@ -1,10 +1,43 @@
-Axe
+MeX - Merb eXception tracking
 ==============
 
-Axe is a flat Merb app that provides a web service for logging exceptions
+Version 0.1.0
+
+==============
+
+MeX is a flat Merb app that provides a web service for logging exceptions
 raised by other web apps.
 
 Start from the command line with:
 
-  merb
-  
+  merb -p 4911
+
+From within a Merb app, you can then log exceptions from the exceptions.rb
+controller of any local Merb app like this:
+
+class Exceptions < Application
+    def internal_server_error
+      exception   = self.params[:exception]
+      request     = self.request
+      orig_params = self.params[:original_params]
+
+      params = {}
+      params['mex[project_name]']    = orig_params[:pn] || 'Kurabelu'
+      params['mex[exception_class]'] = exception.name
+      params['mex[controller_name]'] = orig_params[:controller]
+      params['mex[action_name]']     = orig_params[:action]
+      params['mex[message]']         = exception.message
+      params['mex[backtrace]']       = exception.backtrace.to_yaml
+      params['mex[params]']          = orig_params.to_yaml
+      params['mex[environment]']     = request.env.merge( 'process' => $$ ).to_yaml
+      params['mex[url]']             = "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.uri}"
+
+      Net::HTTP.post_form( URI.parse('http://localhost:4911/mexes'), params ).body
+    end
+end
+
+You can then view the exceptions here:
+
+http://localhost:4911
+
+MeX is heavily inspired by exception_logger - http://github.com/defunkt/exception_logger
