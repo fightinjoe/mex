@@ -8,6 +8,10 @@ class Axes < Merb::Controller
     controller == "layout" ? "layout.#{action}.#{type}" : "#{action}.#{type}"
   end
 
+  def test
+    'this is a test'
+  end
+
   def index
     @exception_names    = Axe.find_exception_class_names
     @controller_actions = Axe.find_exception_controllers_and_actions
