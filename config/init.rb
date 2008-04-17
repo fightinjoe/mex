@@ -9,6 +9,11 @@ Merb::Router.prepare do |r|
     to(:controller => 'axes', :action => 'query', :format => 'js').
     name(:query_js)
 
+  r.match('/query.rss').
+    to(:controller => 'axes', :action => 'query', :format => 'xml').
+    name(:query_rss)
+
+
   r.match('/delete_all.js').
     to(:controller => 'axes', :action => 'delete_all', :format => 'js').
     name(:delete_all)
@@ -18,6 +23,7 @@ Merb::Router.prepare do |r|
 end
 
 Merb::Config.use { |c|
+  c[:app_name]            = "MeX - Merb Exception Tracker"
   c[:environment]         = 'production',
   c[:framework]           = {},
   c[:log_level]           = 'debug',
@@ -30,4 +36,4 @@ Merb::Config.use { |c|
   c[:reload_time]         = 0.5
 }
 
-dependencies 'merb_datamapper'
+dependencies 'merb_datamapper', 'merb-builder'
