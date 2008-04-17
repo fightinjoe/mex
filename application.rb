@@ -65,17 +65,17 @@ class Axes < Merb::Controller
     'Thank you'
   end
 
-  def destroy
+  def delete
     provides :js
     Axe.get( params[:id] ).destroy!
     render :layout => false
   end
 
-  def destroy_all
+  def delete_all
     provides :js
     unless params[:ids].blank?
       ids = params[:ids].split(',').collect(&:to_i)
-      Axe.all( :conditions => ['id in ?', ids] ).each { |l| l.destroy! }
+      Axe.all( :id.in => ids ).each { |l| l.destroy! }
     end
     query
   end

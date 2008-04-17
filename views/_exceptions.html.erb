@@ -1,8 +1,8 @@
 <div id="exceptions">
   <div class="pages">
     <%=
-      url = url(:action => 'destroy_all')
-      remote_link( 'Delete Visible', "$.get('#{url}', {ids:ExceptionLogger.deleteAll()}, null, 'script')" )
+      url = url(:delete_all)
+      remote_link( 'Delete Visible', "$.get('#{url}', ExceptionLogger.deleteAll(), null, 'script')" )
     %>
     <% if @exceptions.number_of_pages > 1 %>
     :: Pages: <strong><%= print_page_links( @exceptions ) %></strong>
@@ -51,7 +51,7 @@
             <%= exc.created_at.strftime("%b %d, %Y") %>
           <% end %>
         </td>
-        <td><%= remote_link 'Delete', "jQuery.getScript('#{url( :action => 'destroy', :id => exc.id )}')" , :class => "util" %></td>
+        <td><%= remote_link 'Delete', "jQuery.getScript('#{url( :delete_axe, exc )}')" , :class => "util" %></td>
       </tr>
     <% end -%>
     </tbody>

@@ -1,7 +1,7 @@
 <div class="tools">
-  <%# link_to_remote 'Delete', {:url => { :action => 'destroy', :id => @exc }} , :class => "util" %>
+  <%= remote_link 'Delete', "jQuery.getScript('#{url( :delete_axe, @exc )}')" , :class => "util" %>
   <span class="pipe">|</span>
-  <a onclick="$('#showpage').slideToggle();this.blur();return false" href="#">Close</a>
+  <a class="util" onclick="$('#showpage').slideToggle();this.blur();return false" href="#">Close</a>
 </div>
 
 <div class="date">

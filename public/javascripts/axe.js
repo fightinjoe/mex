@@ -19,7 +19,11 @@ ExceptionLogger = {
   },
 
   deleteAll: function() {
-    return $.makeArray($('tr.exception').map(function(){return this.getAttribute('id').replace(/^\w+-/, '');})).join(",")
+    var ids = $('tr.exception').map(function(){
+      return $(this).attr('id').replace(/^\w+-/, '');
+    });
+    
+    return $('form#query-form').formSerialize() + '&ids=' + $.makeArray(ids).join(",")
 //    return Form.serialize('query-form') + '&' + $$('tr.exception').collect(function(tr) { return tr.getAttribute('id').gsub(/^\w+-/, ''); }).toQueryString('ids');
   },
 
@@ -30,31 +34,19 @@ ExceptionLogger = {
   }
 }
 
-//Event.observe(window, 'load', function() {
 $(document).ready(function(){
   jQuery.each(ExceptionLogger.filters, function(context) {
     $(context + '_filter').value = '';
   });
+  $('form#query-form').ajaxForm({'dataType':'script'});
 });
 
-
-//Object.extend(Array.prototype, {
 jQuery.extend(Array.prototype, {
   toQueryString: function(name) {
     return this.collect(function(item) { return name + "[]=" + encodeURIComponent(item) }).join('&');
   }
 });
 
-//Ajax.Responders.register({
-//  onCreate: function() {
-//    if($('activity') && Ajax.activeRequestCount > 0) $('activity').visualEffect('appear', {duration:0.25});
-//  },
-//
-//  onComplete: function() {
-//    if($('activity') && Ajax.activeRequestCount == 0) $('activity').visualEffect('fade', {duration:0.25});
-//  }
-//});
-
-$(document).ready(function(){
-  $('form#query-form').ajaxForm({'dataType':'script'});
-});
+$('#activity')
+  .ajaxStart( function(){ $(this).fadeIn(0.25); })
+  .ajaxStop(  function(){ $(this).fadeOut(0.25); });
