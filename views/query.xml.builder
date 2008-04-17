@@ -14,7 +14,7 @@ xml.rss "version" => "2.0" do
         xml.description exc.message
         xml.pubDate to_rfc822(exc.created_at)
         xml.guid ['exceptions', exc.id.to_s].join(":"), "isPermaLink" => "false"
-        xml.link absolute_url(:axe, exc)
+        xml.link absolute_url(:mex, exc)
       }
     }
   end

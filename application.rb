@@ -1,7 +1,7 @@
 require 'forwardable'
 require 'datamapper_ext'
 
-class Axes < Merb::Controller
+class Mexes < Merb::Controller
   # before :require_basic_authentication
 
   def _template_location(action, type = nil, controller = controller_name)
@@ -9,9 +9,9 @@ class Axes < Merb::Controller
   end
 
   def index
-    @exception_names    = Axe.find_exception_class_names
-    @controller_actions = Axe.find_exception_controllers_and_actions
-    @project_names      = Axe.find_project_names
+    @exception_names    = Mex.find_exception_class_names
+    @controller_actions = Mex.find_exception_controllers_and_actions
+    @project_names      = Mex.find_project_names
     query
   end
 
@@ -44,7 +44,7 @@ class Axes < Merb::Controller
       conditions << 'controller_name = ? AND action_name = ?'
       parameters += params[:controller_actions_filter].split('/').collect(&:downcase)
     end
-    @exceptions = Axe.paginate( conditions.empty? ? nil : parameters.unshift(conditions * ' and ') )
+    @exceptions = Mex.paginate( conditions.empty? ? nil : parameters.unshift(conditions * ' and ') )
 
     render :layout => false
 #    respond_to do |format|
@@ -56,18 +56,18 @@ class Axes < Merb::Controller
 
   def show
     provides :html, :js
-    @exc = Axe.get( params[:id] )
+    @exc = Mex.get( params[:id] )
     render
   end
 
   def create
-    Axe.create( params[:axe] )
+    Mex.create( params[:mex] )
     'Thank you'
   end
 
   def delete
     provides :js
-    Axe.get( params[:id] ).destroy!
+    Mex.get( params[:id] ).destroy!
     render :layout => false
   end
 
@@ -75,7 +75,7 @@ class Axes < Merb::Controller
     provides :js
     unless params[:ids].blank?
       ids = params[:ids].split(',').collect(&:to_i)
-      Axe.all( :id.in => ids ).each { |l| l.destroy! }
+      Mex.all( :id.in => ids ).each { |l| l.destroy! }
     end
     query
   end
@@ -110,7 +110,7 @@ end
 class Exceptions < Merb::Controller; end
 
 module Merb
-  module AxesHelper
+  module MexesHelper
     def link( content, url, attrs = {} )
       attrs[:href] = url
       attrs = attrs.to_a.collect { |key,val| '%s="%s"' % [key,val] }
@@ -168,8 +168,9 @@ module Merb
   end
 end
 
-class Axe < DataMapper::Base
+class Mex < DataMapper::Base
   include DataMapperExt
+  set_table_name('mexes')
 
   property :project_name,    :string
   property :exception_class, :string
@@ -199,16 +200,16 @@ class Axe < DataMapper::Base
   end
 
   def self.find_exception_class_names
-    find_by_sql( 'SELECT DISTINCT exception_class FROM axes;' )
+    find_by_sql( 'SELECT DISTINCT exception_class FROM mexes;' )
   end
 
   def self.find_exception_controllers_and_actions
-    sql = 'SELECT DISTINCT controller_name, action_name FROM axes;'
+    sql = 'SELECT DISTINCT controller_name, action_name FROM mexes;'
     find_by_sql(sql).collect{ |c| "#{c.controller_name}/#{c.action_name}"}
   end
 
   def self.find_project_names
-    find_by_sql( 'SELECT DISTINCT project_name FROM axes;' )
+    find_by_sql( 'SELECT DISTINCT project_name FROM mexes;' )
   end
 
   # Pagination support

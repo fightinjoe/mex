@@ -1,24 +1,24 @@
 require 'ruby-debug'
 
-Language::English::Inflect.singular_word('axe','axes')
+Language::English::Inflect.plural_word('mex','mexes')
 Merb::Router.prepare do |r|
 
-  r.match('/').to(:controller => 'axes', :action =>'index')
+  r.match('/').to(:controller => 'mexes', :action =>'index')
 
   r.match('/query.js').
-    to(:controller => 'axes', :action => 'query', :format => 'js').
+    to(:controller => 'mexes', :action => 'query', :format => 'js').
     name(:query_js)
 
   r.match('/query.rss').
-    to(:controller => 'axes', :action => 'query', :format => 'xml').
+    to(:controller => 'mexes', :action => 'query', :format => 'xml').
     name(:query_rss)
 
 
   r.match('/delete_all.js').
-    to(:controller => 'axes', :action => 'delete_all', :format => 'js').
+    to(:controller => 'mexes', :action => 'delete_all', :format => 'js').
     name(:delete_all)
 
-  r.resources :axes
+  r.resources :mexes
 
 end
 

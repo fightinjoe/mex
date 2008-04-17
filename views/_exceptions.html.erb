@@ -29,7 +29,7 @@
           <%= "#{exc.exception_class} in #{exc.controller_name}/#{exc.action_name}" %>
           <%
             content = '%s in %s' % [ exc.exception_class, exc.controller_name ]
-            link    = "jQuery.getScript('#{ url(:axe, exc) }')"
+            link    = "jQuery.getScript('#{ url(:mex, exc) }')"
           %>
           <%= remote_link( content, link ) %>
 
@@ -51,7 +51,7 @@
             <%= exc.created_at.strftime("%b %d, %Y") %>
           <% end %>
         </td>
-        <td><%= remote_link 'Delete', "jQuery.getScript('#{url( :delete_axe, exc )}')" , :class => "util" %></td>
+        <td><%= remote_link 'Delete', "jQuery.getScript('#{url( :delete_mex, exc )}')" , :class => "util" %></td>
       </tr>
     <% end -%>
     </tbody>
