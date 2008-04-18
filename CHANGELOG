@@ -1,3 +1,9 @@
+version 0.2.0
+- release as a gem
+  - support external config
+  - run from command prompt
+- easy integration as a Merb plugin
+
 version 0.1.1
 - rename project_name to app_name
 - remove public directory
