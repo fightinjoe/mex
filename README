@@ -103,4 +103,10 @@ http://yourAppName.com/mex
 
   $ sudo rake gem install
 
+CREDITS
+
 MeX is heavily inspired by exception_logger - http://github.com/defunkt/exception_logger
+
+Jamis Buck  - original exception_notification plugin
+Rick Olson  - original model/controller code
+Josh Goebel - design
