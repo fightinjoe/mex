@@ -15,10 +15,47 @@ a Merb plugin.
 
 Start from the command line with:
 
-  merb -p 4911
+  mex
 
-From within a Merb app, you can then log exceptions from the exceptions.rb
-controller of any local Merb app like this:
+The mex command takes the same arguments as merb does on the command line.
+
+By default, this will start the MeX Merb app running on port 4911.  It will
+also by default use a sqlite database located in the directory from which you
+run the app.  To setup the database, do the following:
+
+  $ mex -i
+  $ >> Mex.auto_migrate!
+
+If you already have a database, you can put your configuration into a YAML
+file.
+
+  mex --config path/to/config
+
+The config file is a YAML file that can look something like this:
+
+---
+:merb:
+  :port: 4911
+:development:
+  :adapter: sqlite3
+  :database: mex.sqlite3
+
+Under the :merb key, you can use any of the configuration settings that map
+to the arguments that merb accepts on the command line.
+
+As for the database, there are two options: either the different environments
+can be specified, as above, or a different database configuration can be
+provided.  Providing a different database.yml file is done this way:
+
+:database
+  :config_file: path/to/file.yml
+
+For this to work, the merb_database gem must be patched:
+
+http://merb.lighthouseapp.com/projects/7588/tickets/92-extend-merb-datamapper-for-custom-configuration
+
+Once up and running, from within any Merb app, you can log an exception from
+within the exceptions.rb controller like this:
 
 class Exceptions < Application
     def internal_server_error
@@ -45,8 +82,25 @@ You can then view the exceptions here:
 
 http://localhost:4911
 
+== Running MeX as a Merb Plugin
+
+After installing the MeX gem, require the gem in init.rb:
+
+dependency "mex"
+
+Then, from the exceptions.rb controller, do the following:
+
+def internal_server_error
+  Mex.create_from_controller( self )
+  'there was an error'
+end
+
+Exceptions can then be viewed here:
+
+http://yourAppName.com/mex
+
+== Building the gem
+
+  $ sudo rake gem install
+
 MeX is heavily inspired by exception_logger - http://github.com/defunkt/exception_logger
-
-
-
--- http://merb.lighthouseapp.com/projects/7588/tickets/92-extend-merb-datamapper-for-custom-configuration
