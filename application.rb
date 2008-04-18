@@ -11,7 +11,7 @@ class Mexes < Merb::Controller
   def index
     @exception_names    = Mex.find_exception_class_names
     @controller_actions = Mex.find_exception_controllers_and_actions
-    @project_names      = Mex.find_project_names
+    @app_names          = Mex.find_app_names
     query
   end
 
@@ -36,9 +36,9 @@ class Mexes < Merb::Controller
       conditions << 'exception_class = ?'
       parameters << params[:exception_names_filter]
     end
-    unless params[:project_names_filter].blank?
-      conditions << 'project_name = ?'
-      parameters << params[:project_names_filter]
+    unless params[:app_names_filter].blank?
+      conditions << 'app_name = ?'
+      parameters << params[:app_names_filter]
     end
     unless params[:controller_actions_filter].blank?
       conditions << 'controller_name = ? AND action_name = ?'
@@ -47,11 +47,6 @@ class Mexes < Merb::Controller
     @exceptions = Mex.paginate( conditions.empty? ? nil : parameters.unshift(conditions * ' and ') )
 
     render :layout => false
-#    respond_to do |format|
-#      format.html { redirect_to :action => 'index' unless action_name == 'index' }
-#      format.js
-#      format.rss  { render :action => 'query.rxml' }
-#    end
   end
 
   def show
@@ -172,7 +167,7 @@ class Mex < DataMapper::Base
   include DataMapperExt
   set_table_name('mexes')
 
-  property :project_name,    :string
+  property :app_name,        :string
   property :exception_class, :string
   property :controller_name, :string
   property :action_name,     :string
@@ -208,8 +203,8 @@ class Mex < DataMapper::Base
     find_by_sql(sql).collect{ |c| "#{c.controller_name}/#{c.action_name}"}
   end
 
-  def self.find_project_names
-    find_by_sql( 'SELECT DISTINCT project_name FROM mexes;' )
+  def self.find_app_names
+    find_by_sql( 'SELECT DISTINCT app_name FROM mexes;' )
   end
 
   # Pagination support

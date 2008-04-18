@@ -22,7 +22,7 @@ class Exceptions < Application
       orig_params = self.params[:original_params]
 
       params = {}
-      params['mex[project_name]']    = orig_params[:pn] || 'Kurabelu'
+      params['mex[app_name]']        = 'myApp'
       params['mex[exception_class]'] = exception.name
       params['mex[controller_name]'] = orig_params[:controller]
       params['mex[action_name]']     = orig_params[:action]

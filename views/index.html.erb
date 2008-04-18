@@ -30,12 +30,12 @@
   </li>
 </ul>
 
-<h4>Project</h4>
+<h4>Application</h4>
 
-<ul id="project_names" class="filters">
-<% @project_names.each do |name| -%>
+<ul id="app_names" class="filters">
+<% @app_names.each do |name| -%>
   <li>
-    <a href="javascript:ExceptionLogger.setFilter('project_names','<%= name %>')"><%= name %></a>
+    <a href="javascript:ExceptionLogger.setFilter('app_names','<%= name %>')"><%= name %></a>
   </li>
 <% end -%>
 </ul>
@@ -76,7 +76,7 @@
       <input type="submit" value="Find" />
 
       <input type="hidden" name="exception_names_filter" />
-      <input type="hidden" name="project_names_filter" />
+      <input type="hidden" name="app_names_filter" />
       <input type="hidden" name="date_ranges_filter" />
       <input type="hidden" name="controller_actions_filter" />
       <input type="hidden" name="page" value="<%= params[:page] %>" />
