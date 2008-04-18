@@ -1,12 +1,17 @@
 MeX - Merb eXception tracking
 ==============
 
-Version 0.1.0
+Version 0.2.0
 
 ==============
 
 MeX is a flat Merb app that provides a web service for logging exceptions
 raised by other web apps.
+
+MeX can be run in two different ways: as a stand alone web service or as
+a Merb plugin.
+
+== Running MeX as a stand-alone web service
 
 Start from the command line with:
 

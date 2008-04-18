@@ -5,7 +5,10 @@ class Mexes < Merb::Controller
   # before :require_basic_authentication
 
   def _template_location(action, type = nil, controller = controller_name)
-    controller == "layout" ? "layout.#{action}.#{type}" : "#{action}.#{type}"
+    undo   = Merb.load_paths[:view].first.gsub(%r{[^/]+}, '..')
+    prefix = File.dirname(__FILE__)
+    file   = controller == "layout" ? "layout.#{action}.#{type}" : "#{action}.#{type}"
+    File.join( '.', undo, prefix, 'views', file )
   end
 
   def index
@@ -102,7 +105,7 @@ class Mexes < Merb::Controller
 
 end
 
-class Exceptions < Merb::Controller; end
+# class Exceptions < Merb::Controller; end
 
 module Merb
   module MexesHelper
@@ -161,6 +164,54 @@ module Merb
       ::Time.local(d.year, d.month, d.day, d.hour, d.min, d.sec).rfc822
     end
   end
+end
+
+# This is a temporary fix until DataMapper 0.9 is released
+# with support for custom types
+module DataMapperExt
+  def self.included(base)
+    base.send :extend, ClassMethods
+  end
+
+  module ClassMethods
+    private
+
+    # Provides a way for storing objects as YAML in the database.
+    # Not ideal, as this can be polymorphically abused, but a good
+    # start towards typecasting
+    #
+    # ==== Example
+    #  require 'datamapper_ext'
+    #  MyClass < DataMapper::Base
+    #    include DataMapperExt
+    #    ...
+    #    yaml_attribute :my_hash, :my_array
+    #    ...
+    #
+    def yaml_attribute( *attributes )
+      for attribute in attributes
+        instance_variable = "@#{ attribute }"
+        cache_variable    = "#{ instance_variable }_cache"
+        getter            = attribute.to_s
+        setter            = "#{ getter }="
+
+        class_eval <<-EOS
+          def #{ getter }
+            #{ cache_variable } ||= #{ instance_variable } && YAML.load( #{ instance_variable } )
+          end
+
+          def #{ setter }( hash )
+            if hash.is_a?( Hash ) || hash.is_a?( Array )
+              #{ cache_variable } = hash
+              hash = hash.to_yaml
+            end
+            #{ instance_variable } = hash
+          end
+        EOS
+      end
+    end
+  end
+
 end
 
 class Mex < DataMapper::Base
