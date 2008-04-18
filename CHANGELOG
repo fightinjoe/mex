@@ -1,3 +1,9 @@
+version 0.1.1
+- rename project_name to app_name
+- remove public directory
+- moved javascript and stylesheet files into views folder
+- add Changelog
+
 version 0.1.0
 - display app/project names for exceptions
 - allow filtering by project
