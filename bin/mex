@@ -3,7 +3,7 @@ require "rubygems"
 require "merb-core"
 
 defaults = {
-  :port      => 4911,
+  :port      => '4911',
   :merb_root => File.dirname(__FILE__) + '/../lib/mex',
   :adapter   => 'mongrel'
 }
