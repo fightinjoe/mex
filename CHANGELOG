@@ -1,0 +1,10 @@
+version 0.1.0
+- display app/project names for exceptions
+- allow filtering by project
+- enable searching
+- collapsable details for exception
+- enable paging
+- change name from Axe to MeX
+- make individual deletion work
+- make all deletion work
+- make rss feed work

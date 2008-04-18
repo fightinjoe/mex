@@ -6,14 +6,14 @@
   <%# javascript_include_tag 'prototype','effects' %>
   <!-- <script type="text/javascript" charset="utf-8" src="/javascripts/jquery.js"></script> -->
   <script type="text/javascript">
-<%= IO.read(File.join(Merb.root, 'public/javascripts/jquery.js')) %>
-<%= IO.read(File.join(Merb.root, 'public/javascripts/form.js')) %>
+<%= IO.read(File.join(Merb.root, 'views/jquery.js')) %>
+<%= IO.read(File.join(Merb.root, 'views/form.js')) %>
   </script>
   <script type="text/javascript">
-<%= IO.read(File.join(Merb.root, 'public/javascripts/mex.js')) %>
+<%= IO.read(File.join(Merb.root, 'views/mex.js')) %>
   </script>
   <style type="text/css">
-<%= IO.read(File.join(Merb.root, 'public/stylesheets/style.css')) %>
+<%= IO.read(File.join(Merb.root, 'views/style.css')) %>
   </style>
 </head>
 <body>
