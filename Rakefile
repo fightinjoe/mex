@@ -3,7 +3,7 @@ require 'rake/gempackagetask'
 
 PLUGIN   = "mex"
 NAME     = "mex"
-VERSION  = "0.0.1"
+VERSION  = "0.2.0"
 AUTHOR   = "Aaron Wheeler"
 EMAIL    = "aaron@fightinjoe.com"
 HOMEPAGE = "http://merb-plugins.rubyforge.org/mex/"

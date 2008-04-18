@@ -41,3 +41,7 @@ You can then view the exceptions here:
 http://localhost:4911
 
 MeX is heavily inspired by exception_logger - http://github.com/defunkt/exception_logger
+
+
+
+-- http://merb.lighthouseapp.com/projects/7588/tickets/92-extend-merb-datamapper-for-custom-configuration
