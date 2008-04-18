@@ -13,16 +13,20 @@ spec = Gem::Specification.new do |s|
   s.name             = NAME
   s.version          = VERSION
   s.platform         = Gem::Platform::RUBY
-  s.has_rdoc         = true
-  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
-  s.summary          = SUMMARY
-  s.description      = s.summary
+
   s.author           = AUTHOR
   s.email            = EMAIL
   s.homepage         = HOMEPAGE
+  s.summary          = SUMMARY
+  s.description      = s.summary
+
+#  s.has_rdoc         = true
+#  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
   s.require_path     = 'lib'
   s.autorequire      = PLUGIN
   s.files            = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*")
+  s.bindir           = "bin"
+  s.executables      = %w( mex )
   s.add_dependency('merb', '>= 0.9.2')
 end
 
