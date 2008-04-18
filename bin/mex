@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "merb-core"
+
+defaults = {
+  :port      => 4911,
+  :merb_root => File.dirname(__FILE__) + '/../lib/mex',
+  :adapter   => 'mongrel'
+}
+
+config = nil
+
+# Mex can be run in two ways:
+# 1) With a configuration YAML file
+#    The file is a hash with keys:
+#    :merb - points to a hash of Merb config values
+#    :database - points to a singleton hash of :config_file => path/to/database.yml
+#      or
+#    :env_name - hash of Database configuration settings
+# 2) With command-line arguments
+#    Use the same arguments you would use when normally running Merb.
+#    This method does not allow for a custom database configuration to be specified
+if (i = ARGV.index('--config'))
+  ARGV.delete_at(i)
+  config_file = ARGV.delete_at(i)
+  
+  configs = YAML.load( File.read( config_file ) )
+  
+  config = defaults.merge( configs[:merb] )
+  
+  # The database can be configured in one of three ways:
+  # 1) In a separate file specified in configs[:database][:config_file
+  # 2) Inline with the config keyed by the current environment, like:
+  #    configs[:production]
+  # 3) In a config/database.yml located in the path from where MeX is being run (this is the default)
+  if configs[:database]
+    Merb::BootLoader.before_app_loads do
+      Merb::Plugins.config[:datamapper] = {
+        :config_file => Merb.root / "config" / "database.yml"
+      }
+    end
+  else
+    unless (configs.keys - [:merb, :database]).empty?
+      Merb::BootLoader.before_app_loads do
+        Merb::Plugins.config[:datamapper] = {
+          :config_file => config_file
+        }
+      end
+    end
+  end
+else
+  unless %w[-a --adapter -i --irb-console -r --script-runner].any? { |o| ARGV.index(o) }
+    ARGV.push *['-a', defaults[:adapter]]
+  end
+
+  unless %w[-m --merb-root].any? { |o| ARGV.index(o) }
+    ARGV.push *['-m', defaults[:merb_root]]
+  end
+
+  unless %w[-p --port].any? { |o| ARGV.index(o) }
+    ARGV.push *['-p', defaults[:port]]
+  end
+end
+
+Merb.start( config || ARGV )
